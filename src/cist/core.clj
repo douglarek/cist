@@ -1,6 +1,10 @@
 (ns cist.core
   (:require [clojure.tools.cli :refer [parse-opts]]
+            [clojure.java.io :refer [file]]
+            [clojure.pprint :as pp]
+            [clojure.string :refer [join]]
             [clojure.string :as string])
+  (:require [tentacles.gists :as gists])
   (:gen-class))
 
 (def cli-options
@@ -29,6 +33,22 @@
   (println msg)
   (System/exit status))
 
+(def auth
+  (let [f (file (System/getProperty "user.home") ".cist")]
+    (if (and (.exists f) (.canRead f)) (slurp (.getPath f))
+        nil
+      )
+    )
+  )
+
+(defn ls-gists [auth]
+  (let [gists (gists/gists {:oauth_token auth})]
+    (doseq [g gists]
+      (let [filesname (doall (map #(str (:filename %)) (vals (:files g))))]
+        (println (format "%-50s%s" (:html_url g) (join ", " filesname))))
+      )
+    ))
+
 (defn -main [& args]
   (let [{:keys [options arguments errors summary]} (parse-opts args cli-options)]
     (cond
@@ -37,5 +57,5 @@
       errors (exit 1 (error-msg errors)))
     (cond
       (seq arguments) (println arguments)
-      (:list options) (println "List public gists ...")
+      (:list options) (ls-gists auth)
       )))
