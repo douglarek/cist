@@ -2,8 +2,7 @@
   (:require [clojure.tools.cli :refer [parse-opts]]
             [clojure.java.io :refer [file]]
             [clojure.pprint :as pp]
-            [clojure.string :refer [join]]
-            [clojure.string :as string])
+            [clojure.string :refer [join]])
   (:require [tentacles.gists :as gists])
   (:gen-class))
 
@@ -23,11 +22,11 @@
         "Options:"
         options-summary
         ""]
-       (string/join \newline)))
+       (join \newline)))
 
 (defn error-msg [errors]
   (str "The following errors occurred while parsing your command:\n\n"
-       (string/join \newline errors)))
+       (join \newline errors)))
 
 (defn exit [status msg]
   (println msg)
