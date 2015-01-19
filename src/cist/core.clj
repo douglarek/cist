@@ -8,8 +8,8 @@
 
 (def cli-options
   [
-   ["-l" nil "List public gists"
-    :id :list]
+   ["-l" nil "List public gists, with `-A` list all ones" :id :list]
+   ["-A" nil nil :id :all]
    [nil "--login" "Authenticate gist on this computer"]
    ["-h" "--help" "Show this message and exit"]
    ])
@@ -40,13 +40,14 @@
     )
   )
 
-(defn ls-gists [auth]
-  (let [gists (gists/gists {:oauth_token auth})]
+(defn ls-gists [auth & {:keys [all-pages private?]}]
+  (let [gists (gists/gists {:oauth_token auth :all-pages all-pages})]
     (doseq [g gists]
       (let [filesname (doall (map #(str (:filename %)) (vals (:files g))))]
-        (println (format "%-50s%s" (:html_url g) (join ", " filesname))))
+        (when (not= private? (:public g))
+          (println (format "%-50s%s" (:html_url g) (join ", " filesname))))
       )
-    ))
+    )))
 
 (defn -main [& args]
   (let [{:keys [options arguments errors summary]} (parse-opts args cli-options)]
@@ -56,5 +57,6 @@
       errors (exit 1 (error-msg errors)))
     (cond
       (seq arguments) (println arguments)
-      (:list options) (ls-gists auth)
+      (and (:list options) (:all options)) (ls-gists auth :all-pages true)
+      (:list options) (ls-gists auth :all-pages true :private? true)
       )))
