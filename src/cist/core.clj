@@ -2,7 +2,7 @@
   (:require [clojure.tools.cli :refer [parse-opts]]
             [clojure.java.io :refer [file]]
             [clojure.pprint :as pp]
-            [clojure.string :refer [join]])
+            [clojure.string :refer [join split]])
   (:require [tentacles.gists :as gists])
   (:gen-class))
 
@@ -10,8 +10,10 @@
   [
    ["-l" nil "List public gists, with `-A` list all ones" :id :list]
    ["-A" nil nil :id :all]
+   ["-d" "--description DESCRIPTION" "Adds a description to your gist" :default ""]
    ["-D" "--delete ID" "Detele an existing gist"]
    [nil "--login" "Authenticate gist on this computer"]
+   ["-p" nil "Makes your gist private" :id :public]
    ["-h" "--help" "Show this message and exit"]
    ])
 
@@ -52,9 +54,24 @@
 
 (defn delete-gist [id]
   (let [result (gists/delete-gist id {:oauth-token auth})]
-    (if result
+    (if (true? result)
       (println (format "Gist <%s> has been deleted successfully." id))
-      (println (format "Failed to delete Gist <%s>" id))
+      (println "Failed")
+      )
+    )
+  )
+
+(defn- files-contents [files]
+  (let [fs (set files)]
+    (map #(vector (.getName (file %)) (slurp (.getPath (file %)))) fs)
+    )
+  )
+
+(defn create-gist [files & {:keys [description public] :or {description "" public true}}]
+  (let [result (gists/create-gist (files-contents files) {:oauth-token auth :description description :public public})]
+    (if (:id result)
+      (println (:html_url result))
+      (println result)
       )
     )
   )
@@ -66,7 +83,7 @@
       (or (:help options) (every? empty? [arguments options])) (exit 0 (usage summary))
       errors (exit 1 (error-msg errors)))
     (cond
-      (seq arguments) (println arguments)
+      (seq arguments) (create-gist arguments :public (not (:public options)) :description (:description options))
       (and (:list options) (:all options)) (ls-gists :all-pages true)
       (:list options) (ls-gists :all-pages true :private? true)
       (:delete options) (delete-gist (:delete options))
