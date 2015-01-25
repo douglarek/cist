@@ -2,7 +2,7 @@
   (:require [clojure.tools.cli :refer [parse-opts]]
             [clojure.java.io :refer [file]]
             [clojure.pprint :as pp]
-            [clojure.string :refer [join split]])
+            [clojure.string :refer [join]])
   (:require [tentacles.gists :as gists])
   (:gen-class))
 
@@ -84,7 +84,6 @@
       errors (exit 1 (error-msg errors)))
     (cond
       (seq arguments) (create-gist arguments :public (not (:public options)) :description (:description options))
-      (and (:list options) (:all options)) (ls-gists :all-pages true)
-      (:list options) (ls-gists :all-pages true :private? true)
+      (:list options) (ls-gists :all-pages true :private? (or (not (:all options)) nil))
       (:delete options) (delete-gist (:delete options))
       )))
