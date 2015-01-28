@@ -1,4 +1,4 @@
-(defproject cist "0.1.0-SNAPSHOT"
+(defproject cist "0.1.0"
   :description "A Clojure command-line wrapper with tentacles library to access GitHub Gist"
   :url "https://github.com/douglarek/cist"
   :license {:name "Copyright (c) 2015, Lingchao Xin"
