@@ -5,5 +5,6 @@
             :url "https://raw.githubusercontent.com/douglarek/cist/master/LICENSE"}
   :dependencies [[org.clojure/clojure "1.6.0"] [tentacles "0.3.0"] [org.clojure/tools.cli "0.3.1"]]
   :main cist.core
+  :omit-source true
   :aot [cist.core]
-)
+  )
