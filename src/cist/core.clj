@@ -8,7 +8,7 @@
 (def cli-options
   [["-l" nil "List public gists, with `-A` list all ones" :id :list]
    ["-A" nil nil :id :all]
-   ["-d" "--description DESCRIPTION" "Adds a description to your gist" :default ""]
+   ["-d" "--description DESCRIPTION" "Adds a description to your gist"]
    ["-D" "--delete ID" "Detele an existing gist"]
    [nil "--login" "Authenticate gist on this computer"]
    ["-p" nil "Makes your gist private" :id :public]
