@@ -1,8 +1,8 @@
 (ns cist.core
-  (:require [clojure.tools.cli :refer [parse-opts]]
-            [clojure.java.io :refer [file]]
+  (:require [clojure.java.io :refer [file]]
             [clojure.pprint :as pp]
-            [clojure.string :refer [join]])
+            [clojure.string :refer [join]]
+            [clojure.tools.cli :refer [parse-opts]])
   (:require [tentacles.gists :as gists])
   (:gen-class))
 
