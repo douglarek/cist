@@ -1,6 +1,5 @@
 (ns cist.core
   (:require [clojure.java.io :refer [file]]
-            [clojure.pprint :as pp]
             [clojure.string :refer [join]]
             [clojure.tools.cli :refer [parse-opts]])
   (:require [tentacles.gists :as gists])
