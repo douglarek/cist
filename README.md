@@ -18,3 +18,7 @@ lein run
 Copyright © 2015 Lingchao Xin
 
 See [LICENSE](https://github.com/douglarek/cist/blob/master/LICENSE).
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/douglarek/cist/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
