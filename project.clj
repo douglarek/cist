@@ -3,7 +3,7 @@
   :url "https://github.com/douglarek/cist"
   :license {:name "Copyright (c) 2015, Lingchao Xin"
             :url "https://raw.githubusercontent.com/douglarek/cist/master/LICENSE"}
-  :dependencies [[org.clojure/clojure "1.6.0"] [tentacles "0.3.0"] [org.clojure/tools.cli "0.3.1"]]
+  :dependencies [[org.clojure/clojure "1.7.0"] [tentacles "0.3.0"] [org.clojure/tools.cli "0.3.3"]]
   :main cist.core
   :omit-source true
   :aot [cist.core]
