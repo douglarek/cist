@@ -1,6 +1,6 @@
 (ns cist.core
   (:require [clojure.java.io :refer [file]]
-            [clojure.string :refer [join]]
+            [clojure.string :refer [join trim]]
             [clojure.tools.cli :refer [parse-opts]])
   (:require [tentacles.gists :as gists])
   (:gen-class))
@@ -34,7 +34,7 @@
 
 (def auth
   (let [f (file (System/getProperty "user.home") ".cist")]
-    (if (and (.exists f) (.canRead f)) (slurp (.getPath f))
+    (if (and (.exists f) (.canRead f)) (trim (slurp (.getPath f)))
         nil)))
 
 (defn ls-gists [& {:keys [all-pages private?]}]
