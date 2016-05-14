@@ -3,7 +3,7 @@
 
 A Clojure command-line tool wraped with tentacles library to play with gists.
 
-## Usage
+## Run
 
 ```
 git clone https://github.com/douglarek/cist.git
@@ -13,10 +13,4 @@ lein run
 
 ## License
 
-Copyright © 2015 Lingchao Xin
-
-See [LICENSE](https://github.com/douglarek/cist/blob/master/LICENSE).
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/douglarek/cist/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
+Licensed under the [MIT License](https://github.com/douglarek/cist/blob/master/LICENSE).
