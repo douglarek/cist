@@ -1,5 +1,5 @@
 # Cist
-[![Clojars Project](http://clojars.org/cist/latest-version.svg)](http://clojars.org/cist)
+[![Clojars Project](https://clojars.org/cist/latest-version.svg)](http://clojars.org/cist)
 
 A Clojure command-line tool wraped with tentacles library to play with gists.
 
