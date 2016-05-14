@@ -3,8 +3,6 @@
 
 A Clojure command-line tool wraped with tentacles library to play with gists.
 
-**Note** Cist is under heavy development !
-
 ## Usage
 
 ```
