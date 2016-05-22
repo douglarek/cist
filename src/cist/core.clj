@@ -57,7 +57,7 @@
   (let [fs (set files)]
     (map #(vector (.getName (file %)) (slurp (.getPath (file %)))) fs)))
 
-(defn create-gist [files & {:keys [description public] :or {description "" public true}}]
+(defn create-gist [files & {:keys [description public]}]
   (let [result (gists/create-gist (files-contents files) {:oauth-token read-token :description description :public public})]
     (if (:id result)
       (println (:html_url result))
@@ -80,7 +80,7 @@
       (or (:help options) (every? empty? [arguments options])) (exit 0 (usage summary))
       errors (exit 1 (error-msg errors)))
     (cond
-      (seq arguments) (create-gist arguments :public (not (:public options)) :description (:description options))
+      (seq arguments) (create-gist arguments :public (not (:public options)) :description (:description options ""))
       (:list options) (ls-gists :all-pages true :private? (or (not (:all options)) nil))
       (:delete options) (delete-gist (:delete options))
       (:login options) (login))))
