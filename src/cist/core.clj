@@ -67,11 +67,11 @@
   (let [f (fn [x] (print x) (flush) (read-line))]
     (let [user (f "GitHub username: ")
           pass (String/valueOf (.readPassword (System/console) "GitHub password: " nil))
-          r (create-auth {:note "gist" :scopes ["gist"] :auth [user pass] :fingerprint (System/currentTimeMillis)})
-          t (:token r)]
-      (if (some? t)
-        (spit cist-home t)
-        (println (:message (:body r)))))))
+          result (create-auth {:note "gist" :scopes ["gist"] :auth [user pass] :fingerprint (System/currentTimeMillis)})
+          token (:token result)]
+      (if (some? token)
+        (spit cist-home token)
+        (println (:message (:body result)))))))
 
 (defn -main [& args]
   (let [{:keys [options arguments errors summary]} (parse-opts args cli-options)]
