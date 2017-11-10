@@ -45,7 +45,7 @@
     (doseq [g gists]
       (let [filesname (doall (map #(str (:filename %)) (vals (:files g))))]
         (when (not= private? (:public g))
-          (println (format "%-50s%s" (:html_url g) (join ", " filesname))))))))
+          (println (format "%-50s %s" (:html_url g) (join ", " filesname))))))))
 
 (defn delete-gist [id]
   (let [result (gists/delete-gist id {:oauth-token read-token})]
