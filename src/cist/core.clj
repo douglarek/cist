@@ -1,6 +1,6 @@
 (ns cist.core
   (:require [clojure.java.io :refer [file]]
-            [clojure.string :refer [join trim]]
+            [clojure.string :refer [join trim includes?]]
             [clojure.tools.cli :refer [parse-opts]])
   (:require [tentacles.gists :as gists])
   (:use [tentacles.oauth :only [create-auth]])
@@ -67,11 +67,22 @@
   (let [f (fn [x] (print x) (flush) (read-line))]
     (let [user (f "GitHub username: ")
           pass (String/valueOf (.readPassword (System/console) "GitHub password: " nil))
-          result (create-auth {:note "gist" :scopes ["gist"] :auth [user pass] :fingerprint (System/currentTimeMillis)})
+          note "gist"
+          scopes ["gist"]
+          auth [user pass]
+          fingerprint (System/currentTimeMillis)
+          result (create-auth {:note note :scopes scopes :auth auth :fingerprint fingerprint})
           token (:token result)]
       (if (some? token)
         (spit cist-home token)
-        (println (:message (:body result)))))))
+        (if (includes? (:X-GitHub-OTP (:headers result)) "required")
+          (let [otp (f "GitHub OTP: ")
+                result (create-auth  {:note note :scopes scopes :auth auth :fingerprint fingerprint :otp otp})
+                token (:token result)]
+            (if (some? token)
+              (spit cist-home token)
+              (println (:message (:body result)))))
+          (println (:message (:body result))))))))
 
 (defn -main [& args]
   (let [{:keys [options arguments errors summary]} (parse-opts args cli-options)]
